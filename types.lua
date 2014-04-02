@@ -1,10 +1,9 @@
-
 -- How the bytestream is described on comments:
 -- <t> a - means 'a' encoded as type 't'
 -- <t> a[n] - means 'a' is an array of 'n' values encoded as type 'a'
 
 -- The stream is read as a stream of "any" or a "vartuple":
--- on root level, each value is preceded by it's type.
+-- on root level, each value is preceded by its type.
 -- Some types receive args before his value.
 --
 -- After the whole stream is read, the value of the last of these "any" 

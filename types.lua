@@ -11,28 +11,34 @@
 
 types = {
 -- basic types - fixed width
-	[0] = 'typetag',
-	[1] = 'varsint', -- zigzag encoded (%2 is negative bit for != 0)
-	[2] = 'varuint',
-	[3] = 'int8',
-	[4] = 'int16',
-	[5] = 'int32',
-	[6] = 'uint8',
-	[7] = 'uint16',
-	[8] = 'uint32',
-	[10] = 'float',
-	[11] = 'double',
+	[0x0] = 'typetag', -- indicates how to calculate the size of a value
+		-- A value of type typetag starts with a byte containing one
+		-- of the values on this table.
+		-- If the most significant bit of this byte is set, this
+		-- typetag has size >1. This size depends on the number and
+		-- size of arguments of this tag.
+
+	[0x1] = 'varsint', -- zigzag encoded (%2 is negative bit for != 0)
+	[0x2] = 'varuint',
+	[0x3] = 'int8',
+	[0x4] = 'int16',
+	[0x5] = 'int32',
+	[0x6] = 'uint8',
+	[0x7] = 'uint16',
+	[0x8] = 'uint32',
+	[0x10] = 'double',
+	[0x11] = 'float',
 -- basic types - variable size precedes value
-	[12] = 'string', -- args: varint size
+	[0x12] = 'string', -- value: varint size
 -- basic containers
-	[20] = 'array', -- args: <typetag> type
+	[0x80] = 'array', -- args: <typetag> type
 	-- value: <varint> size, <type> data[size]
-	[21] = 'tuple', -- args: <varint> size, <typetag> struct[size]
+	[0x81] = 'tuple', -- args: <varint> size, <typetag> struct[size]
 	-- value: <struct[1]> v1, <struct[2]> v2, ..., <struct[size]> vn
-	[22] = 'vartuple', -- generic tuple: each value is preceded by it's type
+	[0x82] = 'vartuple', -- generic tuple: each value is preceded by it's type
 		-- note: same structure as the stream itself outside other types
 -- templates
-	[40] = 'templateDef',
+	[0xa0] = 'templateDef',
 	-- args: <varint> nArgs, <typetag> TArgs[nArgs], <varint> size, <typetag> struct[size]
 		-- - TArgs tells the types of in-place args, read after typetag templateRef,
 		-- preceding value. The values of these types are read similarly as arguments
@@ -40,12 +46,12 @@ types = {
 		-- - struct tells the structure of the contained value. May use special typetag T_
 		-- to refer to types to be defined with args to templateRef.
 	-- value: '' (0 bytes)
-	[41] = 'templateRef',
+	[0xa1] = 'templateRef',
 	-- args: <varint> templateIndex,
 	-- 	<TArgs[1]> T_1, <TArgs[2]> T_2, ..., <TArgs[nArgs] T_nArgs,
 	-- value: <struct[1]> v1, <struct[2]> v2, ..., <struct[size]> vn
 	-- 	note: when struct[i] == (T_, j), it is read as TArgs[j]
-	[49] = 'T_', -- Reserved for use inside template defitions. Forbidden elsewhere
+	[0xaa] = 'T_', -- Reserved for use inside template defitions. Forbidden elsewhere
 	-- args: <varint> argIdx -- must be < nArgs
 }
 

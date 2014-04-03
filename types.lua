@@ -49,7 +49,7 @@ types = {
 	-- args: <varint> argIdx -- must be < nArgs
 }
 
--[
+--[[
 Exemplos:
 
 Tipo aluno(matricula, nome, turmas[])
@@ -85,6 +85,6 @@ como aluno(111111, 'Joao',[turma('33F', 'INF1010'), ...])
 	--)
 --)
 
-]-
+]]--
 
 

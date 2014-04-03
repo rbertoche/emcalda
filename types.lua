@@ -8,14 +8,14 @@
 -- on root level, each value is preceded by it's type.
 -- Some types receive args before his value.
 --
--- After the whole stream is read, the value of the last of these "any" 
+-- After the whole stream is read, the value of the last of these "any"
 -- must be already parsed.
 
 types = {
 -- basic types - fixed width
 	[0] = 'typetag',
 	[1] = 'varsint', -- zigzag encoded (%2 is negative bit for != 0)
- 	[2] = 'varuint',
+	[2] = 'varuint',
 	[3] = 'int8',
 	[4] = 'int16',
 	[5] = 'int32',
@@ -36,12 +36,12 @@ types = {
 -- templates
 	[40] = 'templateDef',
 	-- args: <varint> nArgs, <typetag> TArgs[nArgs], <varint> size, <typetag> struct[size]
- 		-- - TArgs tells the types of in-place args, read after typetag templateRef, 
-		-- preceding value. The values of these types are read similarly as arguments 
+		-- - TArgs tells the types of in-place args, read after typetag templateRef,
+		-- preceding value. The values of these types are read similarly as arguments
 		-- of pre-defined types. Typetag here has the same meaning as "type" on C++ templates.
 		-- - struct tells the structure of the contained value. May use special typetag T_
 		-- to refer to types to be defined with args to templateRef.
-	-- value: '' (0 bytes) 
+	-- value: '' (0 bytes)
 	[41] = 'templateRef',
 	-- args: <varint> templateIndex,
 	-- 	<TArgs[1]> T_1, <TArgs[2]> T_2, ..., <TArgs[nArgs] T_nArgs,
@@ -88,4 +88,5 @@ como aluno(111111, 'Joao',[turma('33F', 'INF1010'), ...])
 --)
 
 ]-
+
 

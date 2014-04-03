@@ -70,7 +70,6 @@ como aluno(111111, 'Joao',[turma('33F', 'INF1010'), ...])
 		--)
 	--)
 --) tuple value(
-	<varint> size = 3,
 	<uint32> value = 111111 ,
 	<string> value = 'Joao',
 	--array value(

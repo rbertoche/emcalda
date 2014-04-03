@@ -51,4 +51,41 @@ types = {
 	-- args: <varint> argIdx -- must be < nArgs
 }
 
+-[
+Exemplos:
+
+Tipo aluno(matricula, nome, turmas[])
+como aluno(111111, 'Joao',[turma('33F', 'INF1010'), ...])
+
+<typetag> t = tuple,
+--tuple args(
+	<varint> size = 3,
+	<typetag> struct[0] = uint32,
+	<typetag> struct[1] = string,
+	<typetag> struct[2] = array,
+	--array args(
+		<typetag> t = tuple,
+		--tuple args(
+			<varint> size = 2,
+			<typetag> struct[0] = string,
+			<typetag> struct[1] = string,
+		--)
+	--)
+--) tuple value(
+	<varint> size = 3,
+	<uint32> value = 111111 ,
+	<string> value = 'Joao',
+	--array value(
+	<varint> size = 3,
+		--tuple value(
+		<string> value = '33F', <string> value = 'INF1010',
+		--) tuple value(
+		<string> value = '33D', <string> value = 'FIS1041',
+		--) tuple value(
+		<string> value = '3A0', <string> value = 'MAT1025',
+		--)
+	--)
+--)
+
+]-
 

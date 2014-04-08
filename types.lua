@@ -48,7 +48,7 @@ types = {
 	-- value: '' (0 bytes)
 	[0xa1] = 'templateRef',
 	-- args: <varint> templateIndex,
-	-- 	<TArgs[1]> T_1, <TArgs[2]> T_2, ..., <TArgs[nArgs] T_nArgs,
+	-- 	<typetag> TArgs[nArgs] T_V,
 	-- value: <struct[1]> v1, <struct[2]> v2, ..., <struct[size]> vn
 	-- 	note: when struct[i] == (T_, j), it is read as TArgs[j]
 	[0xaa] = 'T_', -- Reserved for use inside template defitions. Forbidden elsewhere

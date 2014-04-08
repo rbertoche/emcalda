@@ -39,6 +39,7 @@ types = {
 		-- note: same structure as the stream itself outside other types
 -- templates
 	[0xa0] = 'templateDef',
+	-- Tuple-like supporting compact definition of many "any"s that will share the same typetag
 	-- args: <varint> nArgs, <typetag> TArgs[nArgs], <varint> size, <typetag> struct[size]
 		-- - TArgs tells the types of in-place args, read after typetag templateRef,
 		-- preceding value. The values of these types are read similarly as arguments
@@ -86,6 +87,54 @@ como aluno(111111, 'Joao',[turma('33F', 'INF1010'), ...])
 		<string> value = '33D', <string> value = 'FIS1041',
 		--) tuple value(
 		<string> value = '3A0', <string> value = 'MAT1025',
+		--)
+	--)
+--)
+
+
+Tipo aluno(matricula, nome, turmas[]) definido com um template com T_ no lugar de strings
+
+<typetag> t = template -- Declara um template para aluno
+--template args(
+	<varint> nArgs = 1,    -- tamanho de TArgs
+	<varint> size = 3,     -- tamanho de struct
+	<typetag> struct[0] = uint32,
+	<typetag> struct[1] = T_
+	--T_ args(
+		<varint> 1 -- T_1
+	--)
+	<typetag> struct[2] = array,
+	--array args(
+		<typetag> t = tuple,
+		--tuple args(
+			<varint> size = 2,
+			<typetag> struct[0] = T_
+			--T_ args(
+				<varint> 1 -- T_1
+			--)
+			<typetag> struct[1] = T_
+			--T_ args(
+				<varint> 1 -- T_1
+			--)
+		--)
+	--)
+--)
+
+<typetag> t = templateRef -- Usa o template de aluno com wstring
+--templateRef args(
+	<varint> idx = 1 -- Índice do template de aluno
+	<typetag> T_1 = wstring
+--templateRef value(
+	<uint32> value = 111111,
+	<wstring> value = 'Joao',
+	--array value(
+	<varint> size = 3,
+		--tuple value(
+		<wstring> value = '33F', <wstring> value = 'INF1010',
+		--) tuple value(
+		<wstring> value = '33D', <wstring> value = 'FIS1041',
+		--) tuple value(
+		<wstring> value = '3A0', <wstring> value = 'MAT1025',
 		--)
 	--)
 --)
